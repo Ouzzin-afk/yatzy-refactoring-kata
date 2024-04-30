@@ -10,21 +10,21 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
         dice[4] = _5
     }
 
-    fun fours() = sumOf(dice.take(5), 4)
+    fun fours() = sumOf(dice.take(5), DICE.FOUR.number)
 
-    fun fives() = sumOf(dice.toList(), 5)
+    fun fives() = sumOf(dice.toList(), DICE.FIVE.number)
 
-    fun sixes() = sumOf(dice.toList(), 6)
+    fun sixes() = sumOf(dice.toList(), DICE.SIX.number)
 
-    private fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.map { placedOn }.sum()
+    private fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.sumOf { placedOn }
 
     companion object {
 
         fun chance(vararg diceNumbers: Int)= diceNumbers.sum()
         fun yatzy(vararg dice: Int)= if(dice.distinct().size == 1) 50 else 0
-        fun ones(vararg diceNumbers: Int)= diceNumbers.filter { it == 1 }.sum()
-        fun twos(vararg diceNumbers: Int)= diceNumbers.filter { it == 2 }.sum()
-        fun threes(vararg diceNumbers: Int)= diceNumbers.filter { it == 3 }.sum()
+        fun ones(vararg diceNumbers: Int)= diceNumbers.filter { it == DICE.ONE.number }.sum()
+        fun twos(vararg diceNumbers: Int)= diceNumbers.filter { it == DICE.TWO.number }.sum()
+        fun threes(vararg diceNumbers: Int)= diceNumbers.filter { it == DICE.THREE.number }.sum()
 
         fun score_pair(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
             val counts = IntArray(6)
@@ -161,4 +161,13 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
                 0
         }
     }
+}
+
+enum class DICE(val number: Int) {
+    ONE(1),
+    TWO(2),
+    THREE(3),
+    FOUR(4),
+    FIVE(5),
+    SIX(6);
 }
