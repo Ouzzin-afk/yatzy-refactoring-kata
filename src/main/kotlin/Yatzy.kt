@@ -18,28 +18,18 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
 
     companion object {
         fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.sumOf { placedOn }
-        fun chance(vararg diceNumbers: Int)= diceNumbers.sum()
-        fun yatzy(vararg dice: Int)= if(dice.distinct().size == 1) 50 else 0
-        fun ones(vararg diceNumbers: Int)= sumOf(diceNumbers.toList(), DICE.ONE.number)
-        fun twos(vararg diceNumbers: Int)= sumOf(diceNumbers.toList(), DICE.TWO.number)
-        fun threes(vararg diceNumbers: Int)= sumOf(diceNumbers.toList(), DICE.THREE.number)
+        fun chance(vararg diceNumbers: Int) = diceNumbers.sum()
+        fun yatzy(vararg dice: Int) = if (dice.distinct().size == 1) 50 else 0
+        fun ones(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.ONE.number)
+        fun twos(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.TWO.number)
+        fun threes(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.THREE.number)
+        fun onePair(vararg diceNumbers: Int)= diceNumbers.toList()
+                .groupingBy { it }
+                .eachCount().filter { it.value >=2 }
+                .takeIf { it.isNotEmpty() }?.let { groupingValues ->
+                       groupingValues.map { it.key }.max() * 2
+                } ?: 0
 
-        fun score_pair(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            val counts = IntArray(6)
-            counts[d1 - 1]++
-            counts[d2 - 1]++
-            counts[d3 - 1]++
-            counts[d4 - 1]++
-            counts[d5 - 1]++
-            var at: Int
-            at = 0
-            while (at != 6) {
-                if (counts[6 - at - 1] >= 2)
-                    return (6 - at) * 2
-                at++
-            }
-            return 0
-        }
 
         fun two_pair(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
             val counts = IntArray(6)

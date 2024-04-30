@@ -64,11 +64,11 @@ class YatzyTest {
 
     @Test
     fun one_pair() {
-        assertEquals(6, Yatzy.score_pair(3, 4, 3, 5, 6))
-        assertEquals(6, Yatzy.score_pair(1, 3, 3, 3, 1))
-        assertEquals(10, Yatzy.score_pair(5, 3, 3, 3, 5))
-        assertEquals(12, Yatzy.score_pair(5, 3, 6, 6, 5))
-        assertEquals(0, Yatzy.score_pair(3, 4, 1, 5, 6))
+        assertEquals(6, Yatzy.onePair(3, 4, 3, 5, 6))
+        assertEquals(6, Yatzy.onePair(1, 3, 3, 3, 1))
+        assertEquals(10, Yatzy.onePair(5, 3, 3, 3, 5))
+        assertEquals(12, Yatzy.onePair(5, 3, 6, 6, 5))
+        assertEquals(0, Yatzy.onePair(3, 4, 1, 5, 6))
     }
 
     @Test
