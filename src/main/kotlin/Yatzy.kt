@@ -23,7 +23,8 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
         fun ones(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.ONE.number)
         fun twos(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.TWO.number)
         fun threes(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.THREE.number)
-        fun onePair(vararg diceNumbers: Int)= diceNumbers.toList()
+        fun onePair(vararg diceNumbers: Int)=
+            diceNumbers.toList()
                 .groupingBy { it }
                 .eachCount().filter { it.value >=2 }
                 .takeIf { it.isNotEmpty() }?.let { groupingValues ->
@@ -31,28 +32,14 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
                 } ?: 0
 
 
-        fun two_pair(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            val counts = IntArray(6)
-            counts[d1 - 1]++
-            counts[d2 - 1]++
-            counts[d3 - 1]++
-            counts[d4 - 1]++
-            counts[d5 - 1]++
-            var n = 0
-            var score = 0
-            var i = 0
-            while (i < 6) {
-                if (counts[6 - i - 1] >= 2) {
-                    n++
-                    score += 6 - i
-                }
-                i += 1
-            }
-            return if (n == 2)
-                score * 2
-            else
-                0
-        }
+        fun twoPair(vararg diceNumbers: Int)=
+            diceNumbers.toList()
+                .groupingBy { it }
+                .eachCount()
+                .filter { it.value >=2 }
+                .takeIf { it.isNotEmpty() && it.size >=2 }?.let { groupingValues ->
+                    groupingValues.map { it.key }.sum() * 2
+                } ?: 0
 
         fun four_of_a_kind(_1: Int, _2: Int, d3: Int, d4: Int, d5: Int): Int {
             val tallies: IntArray = IntArray(6)

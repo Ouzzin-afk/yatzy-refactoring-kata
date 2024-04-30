@@ -73,9 +73,9 @@ class YatzyTest {
 
     @Test
     fun two_Pair() {
-        assertEquals(16, Yatzy.two_pair(3, 3, 5, 4, 5))
-        assertEquals(16, Yatzy.two_pair(3, 3, 5, 5, 5))
-        assertEquals(0, Yatzy.two_pair(3, 3, 2, 4, 5))
+        assertEquals(16, Yatzy.twoPair(3, 3, 5, 4, 5))
+        assertEquals(16, Yatzy.twoPair(3, 3, 5, 5, 5))
+        assertEquals(0, Yatzy.twoPair(3, 3, 2, 4, 5))
     }
 
     @Test
