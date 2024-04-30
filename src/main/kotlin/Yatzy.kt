@@ -1,72 +1,61 @@
-class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
+class Yatzy(vararg diceNumbers: Int) {
+    private var dice = diceNumbers
 
-    private var dice: IntArray = IntArray(5)
-
-    init {
-        dice[0] = d1
-        dice[1] = d2
-        dice[2] = d3
-        dice[3] = d4
-        dice[4] = _5
-    }
-
+    fun ones() = sumOf(dice.toList(), DICE.ONE.number)
+    fun twos() = sumOf(dice.toList(), DICE.TWO.number)
+    fun threes() = sumOf(dice.toList(), DICE.THREE.number)
     fun fours() = sumOf(dice.take(5), DICE.FOUR.number)
-
     fun fives() = sumOf(dice.toList(), DICE.FIVE.number)
-
     fun sixes() = sumOf(dice.toList(), DICE.SIX.number)
 
-    companion object {
-        fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.sumOf { placedOn }
-        fun chance(vararg diceNumbers: Int) = diceNumbers.sum()
-        fun yatzy(vararg dice: Int) = if (dice.distinct().size == 1) 50 else 0
-        fun ones(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.ONE.number)
-        fun twos(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.TWO.number)
-        fun threes(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.THREE.number)
-        fun onePair(vararg diceNumbers: Int) =
-            diceNumbers.toList()
-                .groupingBy { it }
-                .eachCount().filter { it.value >= 2 }
-                .takeIf { it.isNotEmpty() }?.let { groupingValues ->
-                    groupingValues.map { it.key }.max() * 2
-                } ?: 0
+    private fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.sumOf { placedOn }
 
-        fun twoPair(vararg diceNumbers: Int) =
-            diceNumbers.toList()
-                .groupingBy { it }
-                .eachCount()
-                .filter { it.value >= 2 }
-                .takeIf { it.isNotEmpty() && it.size >= 2 }?.let { groupingValues ->
-                    groupingValues.map { it.key }.sum() * 2
-                } ?: 0
+    fun chance() = dice.sum()
+    fun yatzy() = if (dice.distinct().size == 1) 50 else 0
+    fun onePair() =
+        dice.toList()
+            .groupingBy { it }
+            .eachCount().filter { it.value >= 2 }
+            .takeIf { it.isNotEmpty() }?.let { groupingValues ->
+                groupingValues.map { it.key }.max() * 2
+            } ?: 0
 
-        fun threeOfAKind(vararg diceNumbers: Int) =
-            diceNumbers.toList().pairsSum(3)
+    fun twoPair() =
+        dice.toList()
+            .groupingBy { it }
+            .eachCount()
+            .filter { it.value >= 2 }
+            .takeIf { it.isNotEmpty() && it.size >= 2 }?.let { groupingValues ->
+                groupingValues.map { it.key }.sum() * 2
+            } ?: 0
 
-        fun fourOfAKind(vararg diceNumbers: Int) =
-            diceNumbers.toList().pairsSum(4)
+    fun threeOfAKind() =
+        dice.toList().pairsSum(3)
 
-        private fun List<Int>.pairsSum(pairNumber: Int) =
-            groupingBy { it }
-                .eachCount()
-                .filter { it.value >= pairNumber }
-                .takeIf { it.isNotEmpty() }?.let { groupingValues ->
-                    groupingValues.map { it.key }.sum() * pairNumber
-                } ?: 0
+    fun fourOfAKind() =
+        dice.toList().pairsSum(4)
 
-        fun smallStraight(vararg diceNumbers: Int) = diceNumbers.toList().straightSum(15)
-        fun largeStraight(vararg diceNumbers: Int) = diceNumbers.toList().straightSum(20)
+    private fun List<Int>.pairsSum(pairNumber: Int) =
+        groupingBy { it }
+            .eachCount()
+            .filter { it.value >= pairNumber }
+            .takeIf { it.isNotEmpty() }?.let { groupingValues ->
+                groupingValues.map { it.key }.sum() * pairNumber
+            } ?: 0
 
-        private fun List<Int>.straightSum(sumOfAllDiceExpected: Int) = takeIf { sum() == sumOfAllDiceExpected && toList().isDistinct()}?.let { sumOfAllDiceExpected } ?: 0
-        private fun List<Int>.isDistinct() = distinct().size == size
+    fun smallStraight() = dice.toList().straightSum(15)
+    fun largeStraight() = dice.toList().straightSum(20)
 
-        fun fullHouse(vararg diceNumbers: Int) =
-            diceNumbers.toList()
-                .groupingBy { it }
-                .eachCount()
-                .takeIf { it.size == 2 && it.values.contains(3) }
-                ?.let { diceNumbers.sum() } ?: 0;
-    }
+    private fun List<Int>.straightSum(sumOfAllDiceExpected: Int) = takeIf { sum() == sumOfAllDiceExpected && toList().isDistinct()}?.let { sumOfAllDiceExpected } ?: 0
+    private fun List<Int>.isDistinct() = distinct().size == size
+
+    fun fullHouse() =
+        dice.toList()
+            .groupingBy { it }
+            .eachCount()
+            .takeIf { it.size == 2 && it.values.contains(3) }
+            ?.let { dice.sum() } ?: 0;
+
 }
 
 enum class DICE(val number: Int) {
