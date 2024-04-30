@@ -1,7 +1,6 @@
-
 class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
 
-    protected var dice: IntArray = IntArray(5)
+    private var dice: IntArray = IntArray(5)
 
     init {
         dice[0] = d1
@@ -11,34 +10,13 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
         dice[4] = _5
     }
 
-    fun fours(): Int {
-        var sum: Int = 0
-        for (at in 0..4) {
-            if (dice[at] == 4) {
-                sum += 4
-            }
-        }
-        return sum
-    }
+    fun fours() = sumOf(dice.take(5), 4)
 
-    fun fives(): Int {
-        var s = 0
-        var i: Int = 0
-        while (i < dice.size) {
-            if (dice[i] == 5)
-                s = s + 5
-            i++
-        }
-        return s
-    }
+    fun fives() = sumOf(dice.toList(), 5)
 
-    fun sixes(): Int {
-        var sum = 0
-        for (at in dice.indices)
-            if (dice[at] == 6)
-                sum = sum + 6
-        return sum
-    }
+    fun sixes() = sumOf(dice.toList(), 6)
+
+    private fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.map { placedOn }.sum()
 
     companion object {
 
