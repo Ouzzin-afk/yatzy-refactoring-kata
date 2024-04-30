@@ -23,46 +23,36 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
         fun ones(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.ONE.number)
         fun twos(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.TWO.number)
         fun threes(vararg diceNumbers: Int) = sumOf(diceNumbers.toList(), DICE.THREE.number)
-        fun onePair(vararg diceNumbers: Int)=
+        fun onePair(vararg diceNumbers: Int) =
             diceNumbers.toList()
                 .groupingBy { it }
-                .eachCount().filter { it.value >=2 }
+                .eachCount().filter { it.value >= 2 }
                 .takeIf { it.isNotEmpty() }?.let { groupingValues ->
-                       groupingValues.map { it.key }.max() * 2
+                    groupingValues.map { it.key }.max() * 2
                 } ?: 0
 
-
-        fun twoPair(vararg diceNumbers: Int)=
+        fun twoPair(vararg diceNumbers: Int) =
             diceNumbers.toList()
                 .groupingBy { it }
                 .eachCount()
-                .filter { it.value >=2 }
-                .takeIf { it.isNotEmpty() && it.size >=2 }?.let { groupingValues ->
+                .filter { it.value >= 2 }
+                .takeIf { it.isNotEmpty() && it.size >= 2 }?.let { groupingValues ->
                     groupingValues.map { it.key }.sum() * 2
                 } ?: 0
 
-        fun threeOfAKind(vararg diceNumbers: Int)=
-            diceNumbers.toList()
-                .groupingBy { it }
+        fun threeOfAKind(vararg diceNumbers: Int) =
+            diceNumbers.toList().pairsSum(3)
+
+        fun fourOfAKind(vararg diceNumbers: Int) =
+            diceNumbers.toList().pairsSum(4)
+
+        private fun List<Int>.pairsSum(pairNumber: Int) =
+            groupingBy { it }
                 .eachCount()
-                .filter { it.value >= 3 }
+                .filter { it.value >= pairNumber }
                 .takeIf { it.isNotEmpty() }?.let { groupingValues ->
-                    groupingValues.map { it.key }.sum() * 3
+                    groupingValues.map { it.key }.sum() * pairNumber
                 } ?: 0
-
-
-        fun fourOfAKind(_1: Int, _2: Int, d3: Int, d4: Int, d5: Int): Int {
-            val tallies: IntArray = IntArray(6)
-            tallies[_1 - 1]++
-            tallies[_2 - 1]++
-            tallies[d3 - 1]++
-            tallies[d4 - 1]++
-            tallies[d5 - 1]++
-            for (i in 0..5)
-                if (tallies[i] >= 4)
-                    return (i + 1) * 4
-            return 0
-        }
 
         fun smallStraight(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
             val tallies: IntArray = IntArray(6)
