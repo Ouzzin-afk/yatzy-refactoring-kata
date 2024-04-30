@@ -1,29 +1,27 @@
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class YatzyTest {
 
-    @Test
-    fun chance_scores_sum_of_all_dice() {
-        val expected = 15
-        val actual = Yatzy.chance(2, 3, 4, 5, 1)
-        assertEquals(expected, actual)
-        assertEquals(16, Yatzy.chance(3, 3, 4, 5, 1))
+    @ParameterizedTest
+    @MethodSource("sumOfAllDice")
+    fun chance_scores_sum_of_all_dice(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int, expected: Int) {
+        assertEquals(expected, Yatzy.chance(d1, d2, d3, d4, d5))
     }
 
     @Test
     fun yatzy_scores_50() {
-        val expected = 50
-        val actual = Yatzy.yatzy(4, 4, 4, 4, 4)
-        assertEquals(expected, actual)
+        assertEquals(50, Yatzy.yatzy(4, 4, 4, 4, 4))
         assertEquals(50, Yatzy.yatzy(6, 6, 6, 6, 6))
         assertEquals(0, Yatzy.yatzy(6, 6, 6, 6, 3))
     }
 
     @Test
     fun test_1s() {
-        assertTrue(Yatzy.ones(1, 2, 3, 4, 5) === 1)
+        assertEquals(1, Yatzy.ones(1, 2, 3, 4, 5))
         assertEquals(2, Yatzy.ones(1, 2, 1, 4, 5))
         assertEquals(0, Yatzy.ones(6, 2, 2, 4, 5))
         assertEquals(4, Yatzy.ones(1, 2, 1, 1, 1))
@@ -112,5 +110,13 @@ class YatzyTest {
     fun fullHouse() {
         assertEquals(18, Yatzy.fullHouse(6, 2, 2, 2, 6))
         assertEquals(0, Yatzy.fullHouse(2, 3, 4, 5, 6))
+    }
+
+    companion object {
+        @JvmStatic
+        fun sumOfAllDice() = listOf(
+            Arguments.of(2, 3, 4, 5, 1, 15),
+            Arguments.of(3, 3, 4, 5, 1, 16)
+        )
     }
 }

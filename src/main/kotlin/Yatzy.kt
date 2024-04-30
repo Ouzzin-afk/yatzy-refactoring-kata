@@ -60,44 +60,12 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
         private fun List<Int>.straightSum(sumOfAllDiceExpected: Int) = takeIf { sum() == sumOfAllDiceExpected && toList().isDistinct()}?.let { sumOfAllDiceExpected } ?: 0
         private fun List<Int>.isDistinct() = distinct().size == size
 
-        fun fullHouse(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            val tallies: IntArray
-            var _2 = false
-            var i: Int
-            var _2_at = 0
-            var _3 = false
-            var _3_at = 0
-
-            tallies = IntArray(6)
-            tallies[d1 - 1] += 1
-            tallies[d2 - 1] += 1
-            tallies[d3 - 1] += 1
-            tallies[d4 - 1] += 1
-            tallies[d5 - 1] += 1
-
-            i = 0
-            while (i != 6) {
-                if (tallies[i] == 2) {
-                    _2 = true
-                    _2_at = i + 1
-                }
-                i += 1
-            }
-
-            i = 0
-            while (i != 6) {
-                if (tallies[i] == 3) {
-                    _3 = true
-                    _3_at = i + 1
-                }
-                i += 1
-            }
-
-            return if (_2 && _3)
-                _2_at * 2 + _3_at * 3
-            else
-                0
-        }
+        fun fullHouse(vararg diceNumbers: Int) =
+            diceNumbers.toList()
+                .groupingBy { it }
+                .eachCount()
+                .takeIf { it.size == 2 && it.values.contains(3) }
+                ?.let { diceNumbers.sum() } ?: 0;
     }
 }
 
