@@ -8,49 +8,44 @@ class YatzyTest {
 
     @ParameterizedTest
     @MethodSource("sumOfAllDice")
-    fun chance_scores_sum_of_all_dice(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int, expected: Int) {
-        assertEquals(expected, Yatzy(d1, d2, d3, d4, d5).chance())
+    fun chance_scores_sum_of_all_dice(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.chance())
     }
 
-    @Test
-    fun yatzy_scores_50() {
-        assertEquals(50, Yatzy(4, 4, 4, 4, 4).yatzy())
-        assertEquals(50, Yatzy(6, 6, 6, 6, 6).yatzy())
-        assertEquals(0, Yatzy(6, 6, 6, 6, 3).yatzy())
+    @ParameterizedTest
+    @MethodSource("yatzyScores50")
+    fun yatzy_scores_50(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.yatzy())
     }
 
-    @Test
-    fun test_1s() {
-        assertEquals(1, Yatzy(1, 2, 3, 4, 5).ones())
-        assertEquals(2, Yatzy(1, 2, 1, 4, 5).ones())
-        assertEquals(0, Yatzy(6, 2, 2, 4, 5).ones())
-        assertEquals(4, Yatzy(1, 2, 1, 1, 1).ones())
+    @ParameterizedTest
+    @MethodSource("test1S")
+    fun test_1s(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.ones())
     }
 
-    @Test
-    fun test_2s() {
-        assertEquals(4, Yatzy(1, 2, 3, 2, 6).twos())
-        assertEquals(10, Yatzy(2, 2, 2, 2, 2).twos())
+    @ParameterizedTest
+    @MethodSource("test2S")
+    fun test_2s(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.twos())
     }
 
-    @Test
-    fun test_threes() {
-        assertEquals(6, Yatzy(1, 2, 3, 2, 3).threes())
-        assertEquals(12, Yatzy(2, 3, 3, 3, 3).threes())
+    @ParameterizedTest
+    @MethodSource("testThrees")
+    fun test_threes(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.threes())
     }
 
-    @Test
-    fun fours_test() {
-        assertEquals(12, Yatzy(4, 4, 4, 5, 5).fours())
-        assertEquals(8, Yatzy(4, 4, 5, 5, 5).fours())
-        assertEquals(4, Yatzy(4, 5, 5, 5, 5).fours())
+    @ParameterizedTest
+    @MethodSource("foursTest")
+    fun fours_test(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.fours())
     }
 
-    @Test
-    fun fives() {
-        assertEquals(10, Yatzy(4, 4, 4, 5, 5).fives())
-        assertEquals(15, Yatzy(4, 4, 5, 5, 5).fives())
-        assertEquals(20, Yatzy(4, 5, 5, 5, 5).fives())
+    @ParameterizedTest
+    @MethodSource("fives")
+    fun fives(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.fives())
     }
 
     @Test
@@ -60,13 +55,10 @@ class YatzyTest {
         assertEquals(18, Yatzy(6, 5, 6, 6, 5).sixes())
     }
 
-    @Test
-    fun one_pair() {
-        assertEquals(6, Yatzy(3, 4, 3, 5, 6).onePair())
-        assertEquals(6, Yatzy(1, 3, 3, 3, 1).onePair())
-        assertEquals(10, Yatzy(5, 3, 3, 3, 5).onePair())
-        assertEquals(12, Yatzy(5, 3, 6, 6, 5).onePair())
-        assertEquals(0, Yatzy(3, 4, 1, 5, 6).onePair())
+    @ParameterizedTest
+    @MethodSource("onePair")
+    fun one_pair(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.onePair())
     }
 
     @Test
@@ -91,12 +83,10 @@ class YatzyTest {
         assertEquals(8, Yatzy(2, 2, 2, 2, 2).fourOfAKind())
     }
 
-    @Test
-    fun smallStraight() {
-        assertEquals(15, Yatzy(1, 2, 3, 4, 5).smallStraight())
-        assertEquals(15, Yatzy(2, 3, 4, 5, 1).smallStraight())
-        assertEquals(0, Yatzy(1, 2, 2, 4, 5).smallStraight())
-        assertEquals(0, Yatzy(6, 1, 1, 2, 5).smallStraight())
+    @ParameterizedTest
+    @MethodSource("smallStraight")
+    fun smallStraight(yatzy: Yatzy, expected: Int) {
+        assertEquals(expected, yatzy.smallStraight())
     }
 
     @Test
@@ -115,8 +105,66 @@ class YatzyTest {
     companion object {
         @JvmStatic
         fun sumOfAllDice() = listOf(
-            Arguments.of(2, 3, 4, 5, 1, 15),
-            Arguments.of(3, 3, 4, 5, 1, 16)
+            Arguments.of(Yatzy(2, 3, 4, 5, 1), 15),
+            Arguments.of(Yatzy(3, 3, 4, 5, 1), 16)
+        )
+
+        @JvmStatic
+        fun yatzyScores50() = listOf(
+            Arguments.of(Yatzy(4, 4, 4, 4, 4), 50),
+            Arguments.of(Yatzy(6, 6, 6, 6, 6), 50),
+            Arguments.of(Yatzy(6, 6, 6, 6, 3), 0)
+        )
+
+        @JvmStatic
+        fun test1S() = listOf(
+            Arguments.of(Yatzy(1, 2, 3, 4, 5), 1),
+            Arguments.of(Yatzy(1, 2, 1, 4, 5), 2),
+            Arguments.of(Yatzy(6, 2, 2, 4, 5), 0),
+            Arguments.of(Yatzy(1, 2, 1, 1, 1), 4)
+        )
+
+        @JvmStatic
+        fun test2S() = listOf(
+            Arguments.of(Yatzy(1, 2, 3, 2, 6), 4),
+            Arguments.of(Yatzy(2, 2, 2, 2, 2), 10)
+        )
+
+        @JvmStatic
+        fun testThrees() = listOf(
+            Arguments.of(Yatzy(1, 2, 3, 2, 3), 6),
+            Arguments.of(Yatzy(2, 3, 3, 3, 3), 12)
+        )
+
+        @JvmStatic
+        fun foursTest() = listOf(
+            Arguments.of(Yatzy(4, 4, 4, 5, 5), 12),
+            Arguments.of(Yatzy(4, 4, 5, 5, 5), 8),
+            Arguments.of(Yatzy(4, 5, 5, 5, 5), 4)
+        )
+
+        @JvmStatic
+        fun fives() = listOf(
+            Arguments.of(Yatzy(4, 4, 4, 5, 5), 10),
+            Arguments.of(Yatzy(4, 4, 5, 5, 5), 15),
+            Arguments.of(Yatzy(4, 5, 5, 5, 5), 20)
+        )
+
+        @JvmStatic
+        fun onePair() = listOf(
+            Arguments.of(Yatzy(3, 4, 3, 5, 6), 6),
+            Arguments.of(Yatzy(1, 3, 3, 3, 1), 6),
+            Arguments.of(Yatzy(5, 3, 3, 3, 5), 10),
+            Arguments.of(Yatzy(5, 3, 6, 6, 5), 12),
+            Arguments.of(Yatzy(3, 4, 1, 5, 6), 0)
+        )
+
+        @JvmStatic
+        fun smallStraight() = listOf(
+            Arguments.of(Yatzy(1, 2, 3, 4, 5), 15),
+            Arguments.of(Yatzy(2, 3, 4, 5, 1), 15),
+            Arguments.of(Yatzy(1, 2, 2, 4, 5), 0),
+            Arguments.of(Yatzy(6, 1, 1, 2, 5), 0),
         )
     }
 }
