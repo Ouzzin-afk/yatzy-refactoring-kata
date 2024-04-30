@@ -16,15 +16,13 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
 
     fun sixes() = sumOf(dice.toList(), DICE.SIX.number)
 
-    private fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.sumOf { placedOn }
-
     companion object {
-
+        fun sumOf(dice: List<Int>, placedOn: Int) = dice.filter { it == placedOn }.sumOf { placedOn }
         fun chance(vararg diceNumbers: Int)= diceNumbers.sum()
         fun yatzy(vararg dice: Int)= if(dice.distinct().size == 1) 50 else 0
-        fun ones(vararg diceNumbers: Int)= diceNumbers.filter { it == DICE.ONE.number }.sum()
-        fun twos(vararg diceNumbers: Int)= diceNumbers.filter { it == DICE.TWO.number }.sum()
-        fun threes(vararg diceNumbers: Int)= diceNumbers.filter { it == DICE.THREE.number }.sum()
+        fun ones(vararg diceNumbers: Int)= sumOf(diceNumbers.toList(), DICE.ONE.number)
+        fun twos(vararg diceNumbers: Int)= sumOf(diceNumbers.toList(), DICE.TWO.number)
+        fun threes(vararg diceNumbers: Int)= sumOf(diceNumbers.toList(), DICE.THREE.number)
 
         fun score_pair(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
             val counts = IntArray(6)
