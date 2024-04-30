@@ -54,24 +54,11 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
                     groupingValues.map { it.key }.sum() * pairNumber
                 } ?: 0
 
-        fun smallStraight(vararg diceNumbers: Int) = takeIf { diceNumbers.sum() == 15 && diceNumbers.toList().isDistinct()}?.let { 15 } ?: 0
+        fun smallStraight(vararg diceNumbers: Int) = diceNumbers.toList().straightSum(15)
+        fun largeStraight(vararg diceNumbers: Int) = diceNumbers.toList().straightSum(20)
 
+        private fun List<Int>.straightSum(sumOfAllDiceExpected: Int) = takeIf { sum() == sumOfAllDiceExpected && toList().isDistinct()}?.let { sumOfAllDiceExpected } ?: 0
         private fun List<Int>.isDistinct() = distinct().size == size
-
-        fun largeStraight(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            val tallies: IntArray = IntArray(6)
-            tallies[d1 - 1] += 1
-            tallies[d2 - 1] += 1
-            tallies[d3 - 1] += 1
-            tallies[d4 - 1] += 1
-            tallies[d5 - 1] += 1
-            return if (tallies[1] == 1 &&
-                tallies[2] == 1 &&
-                tallies[3] == 1 &&
-                tallies[4] == 1
-                && tallies[5] == 1
-            ) 20 else 0
-        }
 
         fun fullHouse(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
             val tallies: IntArray
