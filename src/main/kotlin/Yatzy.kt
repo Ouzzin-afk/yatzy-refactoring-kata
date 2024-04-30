@@ -20,15 +20,8 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
 
     companion object {
 
-        fun chance(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            var total = 0
-            total += d1
-            total += d2
-            total += d3
-            total += d4
-            total += d5
-            return total
-        }
+        fun chance(vararg diceNumbers: Int)= diceNumbers.sum()
+
 
         fun yatzy(vararg dice: Int): Int {
             val counts = IntArray(6)
@@ -40,17 +33,7 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
             return 0
         }
 
-        fun ones(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            var sum = 0
-            if (d1 == 1) sum++
-            if (d2 == 1) sum++
-            if (d3 == 1) sum++
-            if (d4 == 1) sum++
-            if (d5 == 1)
-                sum++
-
-            return sum
-        }
+        fun ones(vararg diceNumbers: Int)= diceNumbers.filter { it == 1 }.sum()
 
         fun twos(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
             var sum = 0
