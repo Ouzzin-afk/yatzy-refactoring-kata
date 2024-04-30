@@ -54,20 +54,7 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
                     groupingValues.map { it.key }.sum() * pairNumber
                 } ?: 0
 
-        fun smallStraight(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            val tallies: IntArray = IntArray(6)
-            tallies[d1 - 1] += 1
-            tallies[d2 - 1] += 1
-            tallies[d3 - 1] += 1
-            tallies[d4 - 1] += 1
-            tallies[d5 - 1] += 1
-            return if (tallies[0] == 1 &&
-                tallies[1] == 1 &&
-                tallies[2] == 1 &&
-                tallies[3] == 1 &&
-                tallies[4] == 1
-            ) 15 else 0
-        }
+        fun smallStraight(vararg diceNumbers: Int) = takeIf { diceNumbers.sum() == 15 }?.let { 15 } ?: 0
 
         fun largeStraight(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
             val tallies: IntArray = IntArray(6)
