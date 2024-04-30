@@ -41,7 +41,17 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
                     groupingValues.map { it.key }.sum() * 2
                 } ?: 0
 
-        fun four_of_a_kind(_1: Int, _2: Int, d3: Int, d4: Int, d5: Int): Int {
+        fun threeOfAKind(vararg diceNumbers: Int)=
+            diceNumbers.toList()
+                .groupingBy { it }
+                .eachCount()
+                .filter { it.value >= 3 }
+                .takeIf { it.isNotEmpty() }?.let { groupingValues ->
+                    groupingValues.map { it.key }.sum() * 3
+                } ?: 0
+
+
+        fun fourOfAKind(_1: Int, _2: Int, d3: Int, d4: Int, d5: Int): Int {
             val tallies: IntArray = IntArray(6)
             tallies[_1 - 1]++
             tallies[_2 - 1]++
@@ -51,19 +61,6 @@ class Yatzy(d1: Int, d2: Int, d3: Int, d4: Int, _5: Int) {
             for (i in 0..5)
                 if (tallies[i] >= 4)
                     return (i + 1) * 4
-            return 0
-        }
-
-        fun three_of_a_kind(d1: Int, d2: Int, d3: Int, d4: Int, d5: Int): Int {
-            val t: IntArray = IntArray(6)
-            t[d1 - 1]++
-            t[d2 - 1]++
-            t[d3 - 1]++
-            t[d4 - 1]++
-            t[d5 - 1]++
-            for (i in 0..5)
-                if (t[i] >= 3)
-                    return (i + 1) * 3
             return 0
         }
 
